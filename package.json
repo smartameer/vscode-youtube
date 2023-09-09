@@ -1,0 +1,252 @@
+{
+  "name": "code-youtube",
+  "displayName": "Youtube player",
+  "description": "VSCode Youtube player",
+  "version": "1.0.0",
+  "pricing": "Free",
+  "license": "MIT",
+  "keywords": [
+    "youtube",
+    "video",
+    "player",
+    "music",
+    "search",
+    "entertainment",
+    "playlist",
+    "favourite"
+  ],
+  "engines": {
+    "vscode": "^1.81.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "extensionKind": [
+		"ui",
+		"workspace"
+	],
+  "repository": {
+		"url": "https://github.com/smartameer/vscode-youtube",
+		"type": "github"
+	},
+	"funding": [
+		{
+			"type": "buymeacoffee",
+		  	"url": "https://www.buymeacoffee.com/smartameer"
+		}
+	],
+  "activationEvents": [],
+  "icon": "media/logo_128x128.png",
+  "main": "./build/extension.js",
+  "contributes": {
+    "configuration": [
+			{
+				"title": "Youtube",
+				"properties": {
+					"youtube.resultmode": {
+						"title": "View mode",
+            "description": "Search result displayed in either list, grid or compact mode",
+						"type": "string",
+						"enum": [
+							"list",
+							"grid",
+							"compact"
+						],
+						"default": "list"
+					},
+          "youtube.maskmode": {
+						"title": "Player masked",
+            "description": "Show/Hide video while playing",
+						"type": "boolean",
+						"default": false
+					}
+				}
+			}
+		],
+    "views": {
+      "explorer": [
+        {
+          "type": "webview",
+          "id": "youtube.start",
+          "name": "Youtube",
+          "visibility": "visible",
+          "contextualTitle": "Youtube",
+          "initialSize": 360,
+          "icon": "media/icon.svg"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "youtube.search",
+        "category": "Youtube",
+        "title": "Search video",
+        "icon": "$(search)",
+        "shortTitle": "Search"
+      },
+      {
+        "command": "youtube.layout",
+        "category": "Youtube",
+        "title": "Layout mode",
+        "icon": "$(layout)",
+        "shortTitle": "Layout"
+      },
+      {
+        "command": "youtube.openbrowser",
+        "category": "Youtube",
+        "title": "Open link",
+        "icon": "$(copy)",
+        "shortTitle": "Open"
+      },
+      {
+        "command": "youtube.player.mask",
+        "category": "Youtube",
+        "title": "Mask Video",
+        "icon": "$(eye)",
+        "shortTitle": "Mask"
+      },
+      {
+        "command": "youtube.player.unmask",
+        "category": "Youtube",
+        "title": "Unmask Video",
+        "icon": "$(eye-closed)",
+        "shortTitle": "Unmask"
+      },
+      {
+        "command": "youtube.player.play",
+        "category": "Youtube",
+        "title": "Play Video",
+        "icon": "$(debug-start)",
+        "shortTitle": "Play"
+      },
+      {
+        "command": "youtube.player.pause",
+        "category": "Youtube",
+        "title": "Pause Video",
+        "icon": "$(debug-pause)",
+        "shortTitle": "Pause"
+      },
+      {
+        "command": "youtube.player.mute",
+        "category": "Youtube",
+        "title": "Mute Video",
+        "icon": "$(unmute)",
+        "shortTitle": "Mute"
+      },
+      {
+        "command": "youtube.player.unmute",
+        "category": "Youtube",
+        "title": "Unmute Video",
+        "icon": "$(mute)",
+        "shortTitle": "Unmute"
+      }
+    ],
+    "menus": {
+			"view/title": [
+				{
+					"command": "youtube.layout",
+					"group": "navigation@4",
+					"when": "view == youtube.start"
+				},
+        {
+          "command": "youtube.player.mask",
+          "group": "navigation@3",
+          "when": "view == youtube.start && player-masked == false && player-section == true"
+        },
+        {
+          "command": "youtube.player.unmask",
+          "group": "navigation@3",
+          "when": "view == youtube.start && player-masked == true && player-section == true"
+        },
+        {
+          "command": "youtube.player.play",
+          "group": "navigation@2",
+          "when": "view == youtube.start && player-state == false && player-section == true"
+        },
+        {
+          "command": "youtube.player.pause",
+          "group": "navigation@2",
+          "when": "view == youtube.start && player-state == true && player-section == true"
+        },
+        {
+          "command": "youtube.player.mute",
+          "group": "navigation@1",
+          "when": "view == youtube.start && player-audio == false && player-section == true"
+        },
+        {
+          "command": "youtube.player.unmute",
+          "group": "navigation@1",
+          "when": "view == youtube.start && player-audio == true && player-section == true"
+        }
+			],
+      "webview/context": [
+        {
+          "command": "youtube.player.mask",
+          "when": "webviewId == 'youtube.start' && webviewSection == 'player' && player-masked == false"
+        },
+        {
+          "command": "youtube.player.unmask",
+          "when": "webviewId == 'youtube.start' && webviewSection == 'player' && player-masked == true"
+        },
+        {
+          "command": "youtube.openbrowser",
+          "when": "webviewId == 'youtube.start' && (webviewSection == 'item' || webviewSection == 'player')"
+        }
+      ],
+      "commandPalette": [
+        {
+            "command": "youtube.player.mask",
+            "when": "false"
+        },
+        {
+            "command": "youtube.player.unmask",
+            "when": "false"
+        },
+        {
+            "command": "youtube.openbrowser",
+            "when": "false"
+        },
+        {
+          "command": "youtube.player.play",
+          "when": "false"
+        },
+        {
+          "command": "youtube.player.pause",
+          "when": "false"
+        },
+        {
+          "command": "youtube.player.mute",
+          "when": "false"
+        },
+        {
+          "command": "youtube.player.unmute",
+          "when": "false"
+        }
+      ]
+		}
+  },
+  "scripts": {
+    "vscode:prepublish": "yarn run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "pretest": "yarn run compile && yarn run lint",
+    "lint": "eslint src --ext ts",
+    "test": "node ./out/test/runTest.js"
+  },
+  "devDependencies": {
+    "@types/mocha": "^10.0.1",
+    "@types/node": "16.x",
+    "@types/vscode": "^1.81.0",
+    "@types/yt-search": "^2.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.4.1",
+    "@typescript-eslint/parser": "^6.4.1",
+    "@vscode/test-electron": "^2.3.4",
+    "eslint": "^8.47.0",
+    "glob": "^10.3.3",
+    "mocha": "^10.2.0",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "yt-search": "^2.10.4"
+  }
+}
